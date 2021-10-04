@@ -1,8 +1,7 @@
-import { Text, useGLTF, useProgress, useTexture } from "@react-three/drei";
+import { Text, useProgress } from "@react-three/drei";
 import { Canvas, createPortal, useFrame, useThree } from "@react-three/fiber";
 import { Suspense, useEffect, useMemo, useRef } from "react";
-import { Color, Object3D, sRGBEncoding } from "three";
-import { SkeletonUtils } from "three-stdlib";
+import { Color, Object3D } from "three";
 import { InteractionUI } from "../vfx/classes/InteractionUI";
 import { Mini } from "../vfx/classes/Mini";
 // import { EditorLayout } from "../vfx/editor/EditorLayout";
@@ -60,6 +59,8 @@ function Content() {
   // }, []);
 
   useEffect(() => {
+    T3.get().scene.background = new Color("#000000");
+
     for (let kn in T3) {
       mini.set(kn, T3[kn]);
     }
@@ -70,14 +71,14 @@ function Content() {
   }, []);
   //
 
-  //
-
   //st
 
   return (
     <group>
       {/* {createPortal(<primitive object={anyo3d} />, o3d)} */}
+
       <primitive object={o3d} />
+
       {/* <directionalLight position={[1, 1, 1]} /> */}
       {/*  */}
       {/* <mesh>
@@ -85,69 +86,6 @@ function Content() {
         <meshStandardMaterial metalness={0.3}></meshStandardMaterial>
       </mesh> */}
       {/*  */}
-      <CamRig />
-      <Coloring></Coloring>
-
-      <Avatar></Avatar>
     </group>
   );
-}
-
-function CamRig() {
-  let { camera } = useThree();
-
-  camera.position.z = 2;
-  camera.position.y = 1.8;
-  camera.lookAt(0, camera.position.y * 0.6, 0);
-
-  return (
-    <group>
-      <primitive object={camera}></primitive>
-      {/*  */}
-      {/*  */}
-      {/*  */}
-    </group>
-  );
-}
-
-function Avatar() {
-  let gltf = useGLTF(
-    `https://d1a370nemizbjq.cloudfront.net/4cbc677b-3c53-4787-b62e-288d84f379a0.glb`
-  );
-
-  let ava = useMemo(() => {
-    return SkeletonUtils.clone(gltf.scene);
-  });
-
-  let o3d = new Object3D();
-  o3d.add(ava);
-
-  return (
-    <group>
-      <primitive object={o3d} />
-    </group>
-  );
-}
-
-function Coloring() {
-  let { get } = useThree();
-
-  let tex = useTexture(`/envmap/room.png`);
-  tex.encoding = sRGBEncoding;
-
-  get().scene.background = tex;
-  get().scene.environment = tex;
-
-  get().gl.outputEncoding = sRGBEncoding;
-  get().gl.physicallyCorrectLights = true;
-
-  // get().scene.background = new Color("#000000");
-
-  return (
-    <group>
-      <ambientLight intensity={2} />
-      <directionalLight position={[0, 1, 1]} intensity={3} />
-    </group>
-  );
-  //
 }
