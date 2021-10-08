@@ -1,35 +1,59 @@
+import { Core } from "../Core";
+
 export function TNode({
   item,
+  readonly,
   selected,
   hasChildren,
   level,
   onToggle,
-  idx,
-  height,
 }) {
+  Core.makeKeyReactive("selectedTreeItem");
+  //
   return (
-    <div className="mb-2">
-      <span>{item.name}</span>
+    <div
+      className={`group ${
+        Core.selectedTreeItem === item.id ? "bg-green-200" : ""
+      } flex items-center hover:bg-green-200 h-8 px-3 cursor-pointer`}
+      onClick={() => {
+        Core.selectedTreeItem = item.id;
+      }}
+    >
+      <div style={{ paddingLeft: `${level * 18}px` }}></div>
 
-      {item.type === "mesh" && (
-        <span>
-          <span className={"px-2 py-1 rounded-xl bg-purple-200 "}>Geo</span>
-          <span className={"px-2 py-1 rounded-xl bg-blue-200 "}>Mat</span>
-        </span>
-      )}
+      <div className=" border-l-2 border-red-500 pl-3">
+        {item.name || item.type}{" "}
+      </div>
 
       {hasChildren && (
-        <span
+        <div
           className={
-            "ml-3 px-2 py-1 rounded-xl " +
+            "ml-3 px-2 py-0 rounded-xl select-none " +
             " " +
-            (selected ? "bg-green-200 " : "bg-gray-200 ")
+            (selected ? "bg-green-300 " : "bg-green-100 ")
           }
           onClick={onToggle}
         >
-          {selected ? <span>Hide</span> : <span>Expand</span>}
-        </span>
+          {selected ? <div>-</div> : <div>+</div>}
+        </div>
       )}
+
+      {!readonly && (
+        <div className="hidden group-hover:inline-block">
+          <div
+            className={"ml-1 px-2 py-0 rounded-xl bg-blue-200 "}
+            onClick={() => {
+              //
+            }}
+          >
+            Edit
+          </div>
+        </div>
+      )}
+
+      {/*  */}
     </div>
   );
 }
+
+//

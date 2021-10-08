@@ -70,10 +70,6 @@ function Content() {
   }, []);
   //
 
-  //
-
-  //st
-
   return (
     <group>
       {/* {createPortal(<primitive object={anyo3d} />, o3d)} */}

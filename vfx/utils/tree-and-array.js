@@ -85,6 +85,17 @@ export function arrayToTree(list, primaryKN = "id", parentKN = "parentId") {
   };
 }
 
+export const traverse = (object, fnc) => {
+  if (object) {
+    fnc(object);
+  }
+  if (object.children && object.children.length > 0) {
+    object.children.forEach((k) => {
+      traverse(k, fnc);
+    });
+  }
+};
+
 //-----
 export class TreeArraySample {
   static run() {

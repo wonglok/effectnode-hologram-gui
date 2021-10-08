@@ -1,9 +1,12 @@
-import { Canvas, useThree } from "@react-three/fiber";
-import { Suspense } from "react";
-import { Color } from "three";
+import { Canvas, createPortal, useThree } from "@react-three/fiber";
+// import { Suspense, useMemo } from "react";
+// import { Core } from "../Core";
+// // import { Color } from "three";
 import { RunTreeR3F } from "../TreeR3F/RunTreeR3F";
+// import { CanvasContent } from "./CanvasContent";
+// import { Loading } from "./Loading";
 
-export function CanvasArea() {
+export function CanvasArea({ children }) {
   return (
     <div className="w-full h-full">
       <Canvas
@@ -11,39 +14,11 @@ export function CanvasArea() {
         gl={{ alpha: true, antialias: true }}
         performance={{ min: 0.5 }}
       >
-        <Suspense fallback={<Loading></Loading>}>
-          <Content></Content>
-        </Suspense>
+        {children}
+        <RunTreeR3F></RunTreeR3F>
       </Canvas>
     </div>
   );
 }
 
-function Loading() {
-  let { total, loaded } = useProgress();
-  let { get } = useThree();
-  return (
-    <group>
-      {createPortal(
-        <group position={[0, 0, -3]}>
-          <Text color={"black"}>
-            Loading: {loaded} / {total}
-          </Text>
-        </group>,
-        get().camera
-      )}
-      <primitive object={get().camera}></primitive>
-    </group>
-  );
-}
-
-function Content() {
-  let { get } = useThree();
-  get().scene.background = new Color("#000000");
-
-  return (
-    <group>
-      <RunTreeR3F></RunTreeR3F>
-    </group>
-  );
-}
+//

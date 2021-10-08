@@ -1,37 +1,54 @@
 import { useEffect, useMemo, useState } from "react";
-import { TreeArraySample } from "../utils/tree-and-array";
-import { EA } from "./EA";
-import { SceneComposer } from "./SceneComposer";
-import { ShadingEditor } from "./ShadingEditor";
+// import { TreeArraySample } from "../utils/tree-and-array";
+import { Core } from "./Core";
+import { ProcedralContent } from "./VFXEditors/ProcedralContent";
+import { SceneComposer } from "./VFXEditors/SceneComposer";
+import { ShadingEditor } from "./VFXEditors/ShadingEditor";
 
 export function EditorApp() {
-  let spaces = useMemo(() => {
+  Core.makeKeyReactive("workspace");
+
+  let Compos = {
+    SceneComposer,
+    ShadingEditor,
+    ProcedralContent,
+  };
+  let cacheMap = useMemo(() => {
+    return new Map();
+  }, []);
+
+  let makeFNC = (key) => {
+    let Fnc = Compos[key];
+
+    return <Fnc></Fnc>;
+  };
+
+  let makeCompo = (compoKey, cacheMap) => {
+    if (cacheMap.has(compoKey)) {
+      return cacheMap.get(compoKey);
+    } else {
+      let made = makeFNC(compoKey);
+      cacheMap.set(compoKey, made);
+      return cacheMap.get(compoKey);
+    }
+  };
+
+  let spaceTabs = useMemo(() => {
     return [
       {
         key: "SceneComposer",
-        compo: <SceneComposer></SceneComposer>,
         label: "Scene Composer",
       },
       {
         key: "ShadingEditor",
-        compo: <ShadingEditor></ShadingEditor>,
         label: "Shading",
+      },
+      {
+        key: "ProcedralContent",
+        label: "Procedral Content",
       },
     ];
   });
-
-  let [tab, setTab] = useState(null);
-
-  useEffect(() => {
-    TreeArraySample.run();
-
-    let h = () => {
-      let info = spaces.find((e) => e.key === EA.workspace);
-      setTab(info);
-    };
-    h();
-    return EA.onEvent("workspace", h);
-  }, []);
 
   return (
     <div className="h-full w-full text-sm bg-gray-50 ">
@@ -43,27 +60,56 @@ export function EditorApp() {
           EffectNode
         </div>
         <div className="inline-flex items-end">
-          {spaces.map((e) => {
+          {spaceTabs.map((e) => {
             return (
               <div
                 key={e.key}
-                className={`px-3 py-1 mr-2 rounded-tr-xl rounded-tl-xl cursor-pointer ${
-                  EA.workspace === e.key ? "bg-green-200" : "bg-gray-100"
+                className={`hover:bg-blue-300 flex items-center justify-center px-3 py-1 mr-2 rounded-tr-xl rounded-tl-xl cursor-pointer ${
+                  Core.workspace === e.key
+                    ? "bg-white text-black border-gray-200"
+                    : "bg-gray-300 text-black border-t border-l border-r border-gray-200"
                 }`}
                 onClick={() => {
-                  EA.workspace = e.key;
+                  Core.workspace = e.key;
                 }}
               >
                 {e.label}
+
+                {/* <CloseBtn
+                  onClick={() => {
+                    cacheMap.delete(e.key);
+                    Core.reloadSpace++;
+                  }}
+                  cacheMap={cacheMap}
+                  tab={e}
+                ></CloseBtn> */}
               </div>
             );
           })}
         </div>
       </div>
-      <div className={"main-area w-full "}>{tab?.compo}</div>
+      <div className={"main-area w-full "}>
+        {/*  */}
+        {/*  */}
+        {spaceTabs.map((e) => {
+          return (
+            <div
+              key={e.key}
+              style={{ display: e.key == Core.workspace ? "block" : "none" }}
+              className="h-full w-full"
+            >
+              {makeCompo(e.key, cacheMap)}
+            </div>
+          );
+        })}
+      </div>
+
+      {/*  */}
+
       <div className="top-tool bg-gray-300 w-full flex items-center">
-        <div className="flex items-center justify-end w-full px-2">
-          EffectNode {new Date().getFullYear()} ©
+        <div className="flex items-center justify-between w-full px-2">
+          <div>樂樂出品必屬佳品! </div>
+          <div>EffectNode {new Date().getFullYear()} ©</div>
         </div>
       </div>
 
@@ -83,3 +129,17 @@ export function EditorApp() {
     </div>
   );
 }
+
+// function CloseBtn({ cacheMap, tab, onClick }) {
+//   Core.makeKeyReactive("reloadSpace");
+//   return (
+//     <div className="inline-block" onClick={onClick}>
+//       {cacheMap.has(tab.key) && (
+//         <img
+//           className="h-2 ml-2"
+//           src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjMuOTU0IDIxLjAzbC05LjE4NC05LjA5NSA5LjA5Mi05LjE3NC0yLjgzMi0yLjgwNy05LjA5IDkuMTc5LTkuMTc2LTkuMDg4LTIuODEgMi44MSA5LjE4NiA5LjEwNS05LjA5NSA5LjE4NCAyLjgxIDIuODEgOS4xMTItOS4xOTIgOS4xOCA5LjF6Ii8+PC9zdmc+"
+//         ></img>
+//       )}
+//     </div>
+//   );
+// }

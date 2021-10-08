@@ -35,6 +35,12 @@ export const makeShallowStore = (myObject = {}) => {
       };
     },
 
+    useEvent: (key, func) => {
+      useEffect(() => {
+        return Utils.onEvent(key, func);
+      }, []);
+    },
+
     makeKeyReactive: (key) => {
       let [vv, setSt] = useState(0);
       useEffect(() => {

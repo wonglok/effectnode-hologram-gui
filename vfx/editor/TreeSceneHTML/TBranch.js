@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 
+import { Core } from "../Core";
 import { TNode } from "./TNode";
 
-export function TBranch({ item, level, idx = 0 }) {
-  const [selected, setSelected] = useState(item.selected || true);
+export function TBranch({ item, level, readonly, idx = 0 }) {
+  const [expanded, setExpand] = useState(item.selected || true);
 
   const hasChildren = item.children && item.children.length !== 0;
 
@@ -11,37 +12,49 @@ export function TBranch({ item, level, idx = 0 }) {
     if (hasChildren) {
       const newLevel = level + 1;
 
-      return item.children.map((child, idx) => {
-        return (
-          <TBranch
-            key={"branch" + child.id}
-            idx={idx}
-            item={child}
-            level={newLevel}
-          />
-        );
-      });
+      return item.children
+        .filter((kid) => {
+          if (kid?.userData?.hideFromTree) {
+            return false;
+          }
+
+          return true;
+        })
+        .map((child, idx) => {
+          return (
+            <TBranch
+              key={"branch" + child.id}
+              idx={idx}
+              item={child}
+              readonly={readonly}
+              level={newLevel}
+            />
+          );
+        });
     }
 
     return null;
   };
 
   const toggleSelected = () => {
-    setSelected((prev) => !prev);
+    setExpand((prev) => !prev);
+    Core.selectedTreeItem = item.id;
   };
 
   return (
-    <div style={{ paddingLeft: `${level * 18}px` }}>
-      <TNode
-        item={item}
-        selected={selected}
-        hasChildren={hasChildren}
-        level={level}
-        selected={selected}
-        onToggle={toggleSelected}
-      />
+    <div>
+      {!(item?.userData?.isSystemContent || item?.userData?.hideFromTree) && (
+        <TNode
+          readonly={readonly}
+          item={item}
+          selected={expanded}
+          hasChildren={hasChildren}
+          level={level}
+          onToggle={toggleSelected}
+        />
+      )}
 
-      {selected && renderBranches()}
+      {expanded && renderBranches()}
     </div>
   );
 }
