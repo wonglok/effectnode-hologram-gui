@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Core } from "../Core";
+import { Core } from "../AppState/Core";
 import { TNode } from "./TNode";
 
 export function TBranch({ item, level, readonly, idx = 0 }) {

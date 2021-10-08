@@ -2,18 +2,18 @@ import { useEffect, useState } from "react";
 import SplitPane from "react-split-pane";
 import { CanvasArea } from "../CanvasArea/CanvasArea";
 // import { SceneComposerCamRigFP } from "../CanvasArea/SceneComposerCamRigFP";
-import { SceneComposerRoot } from "../CanvasArea/SceneComposerRoot";
+import { SceneComposerRoot } from "../CanvasArea/SceneComposer/SceneComposerRoot";
 import { Outline } from "../Outline/Outline";
 import { ToolPanel } from "../ToolPanel/ToolPanel";
 
 export function SceneComposer() {
   let [splitAreaHeight, setSplitAreaHeight] = useState(1024);
-  let [canvasHeightMax, canvasHeightMaxSetter] = useState(700);
+  let [canvasHeightMax, canvasMaxSetter] = useState(700);
 
   useEffect(() => {
     let h = () => {
       setSplitAreaHeight(window.innerHeight - 35 * 2);
-      canvasHeightMaxSetter(window.innerHeight - 280);
+      canvasMaxSetter(window.innerHeight - 300);
     };
     h();
 

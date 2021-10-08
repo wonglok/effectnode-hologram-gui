@@ -1,10 +1,7 @@
-// import { Scene } from "three";
-import { makeShallowStore } from "../utils/make-shallow-store";
-import { getID } from "../utils/get-id";
-import { Object3D, PerspectiveCamera, Scene } from "three";
-
 // let id = ;
 // Tree Life
+import { getID } from "../../utils/get-id";
+
 export const ETree = {
   children: [
     {
@@ -66,13 +63,3 @@ export const ETree = {
     },
   ],
 };
-
-export const Core = makeShallowStore({
-  canRender: true,
-  workspace: "SceneComposer",
-  reloadSpace: 0,
-  selectedTreeItem: "",
-  //
-  tree: ETree,
-  reloadContent: 0,
-});

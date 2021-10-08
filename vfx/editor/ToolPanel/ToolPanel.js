@@ -73,8 +73,8 @@ function Tools({ UI }) {
         `
       }</style>
 
-      {UI.tabs === "runners" && <SettingsPanel></SettingsPanel>}
       {UI.tabs === "layout" && <LayoutPanel></LayoutPanel>}
+      {UI.tabs === "runners" && <SettingsPanel></SettingsPanel>}
       {UI.tabs === "material" && <MaterialPanel></MaterialPanel>}
     </div>
   );

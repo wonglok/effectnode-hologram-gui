@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import SplitPane from "react-split-pane";
 import { CanvasArea } from "../CanvasArea/CanvasArea";
-import { ProcedralRoot } from "../CanvasArea/ProcedralRoot";
+import { ProcedralRoot } from "../CanvasArea/ProcedralContent/ProcedralRoot";
 // import { Outline } from "../Outline/Outline";
 
 // import { SceneComposerCamRigFP } from "./CanvasArea/SceneComposerCamRigFP";
@@ -43,9 +43,14 @@ export function ProcedralContent() {
         {/* </SplitPane> */}
 
         <div className=" h-full bg-white">
-          <CanvasArea>
-            <ProcedralRoot></ProcedralRoot>
-          </CanvasArea>
+          <SplitPane split="horizontal" defaultSize={hh / 2}>
+            <div className="w-full h-full bg-gray-100">
+              <CanvasArea>
+                <ProcedralRoot></ProcedralRoot>
+              </CanvasArea>
+            </div>
+            <div></div>
+          </SplitPane>
         </div>
         <div className=" h-full bg-gray-100">Procedral Graph</div>
       </SplitPane>
@@ -53,8 +58,6 @@ export function ProcedralContent() {
       <style>
         {
           /* css */ `
-
-
           .Resizer {
             background: #000;
             opacity: 0.2;

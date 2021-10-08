@@ -1,4 +1,4 @@
-import { Core } from "../Core";
+import { Core } from "../AppState/Core";
 
 export function TNode({
   item,

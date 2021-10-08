@@ -1,16 +1,16 @@
 import { useEffect, useMemo, useState } from "react";
 // import { TreeArraySample } from "../utils/tree-and-array";
-import { Core } from "./Core";
-import { ProcedralContent } from "./VFXEditors/ProcedralContent";
-import { SceneComposer } from "./VFXEditors/SceneComposer";
-import { ShadingEditor } from "./VFXEditors/ShadingEditor";
+import { Core } from "../AppState/Core";
+import { ProcedralContent } from "../VFXEditors/ProcedralContent";
+import { SceneComposer } from "../VFXEditors/SceneComposer";
+// import { ShadingEditor } from "./VFXEditors/ShadingEditor";
 
 export function EditorApp() {
   Core.makeKeyReactive("workspace");
 
   let Compos = {
     SceneComposer,
-    ShadingEditor,
+    // ShadingEditor,
     ProcedralContent,
   };
   let cacheMap = useMemo(() => {
@@ -39,10 +39,10 @@ export function EditorApp() {
         key: "SceneComposer",
         label: "Scene Composer",
       },
-      {
-        key: "ShadingEditor",
-        label: "Shading",
-      },
+      // {
+      //   key: "ShadingEditor",
+      //   label: "Shading",
+      // },
       {
         key: "ProcedralContent",
         label: "Procedral Content",

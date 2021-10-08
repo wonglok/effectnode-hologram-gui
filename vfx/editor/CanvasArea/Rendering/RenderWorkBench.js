@@ -1,7 +1,7 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import { useEffect } from "react";
-import { Core } from "../Core";
-import { SelectiveBlooming } from "./SelectiveBlooming";
+import { Core } from "../../AppState/Core";
+// import { SelectiveBlooming } from "./SelectiveBlooming";
 
 export function RenderWorkBench({ workspace = "workspace" }) {
   //

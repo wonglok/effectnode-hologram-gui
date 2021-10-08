@@ -1,7 +1,5 @@
-import { createPortal } from "@react-three/fiber";
-import { Core } from "../Core";
-import { RenderWorkBench } from "./RenderWorkBench";
-import { Group } from "three";
+import { Core } from "../../AppState/Core";
+import { RenderWorkBench } from "../Rendering/RenderWorkBench";
 import { useEffect } from "react";
 
 export function ProcedralRoot() {

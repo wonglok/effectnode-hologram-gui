@@ -1,4 +1,4 @@
-import { Core } from "../Core";
+import { Core } from "../AppState/Core";
 import { RunTreeHTML } from "../TreeSceneHTML/RunTreeHTML";
 
 export function Outline() {

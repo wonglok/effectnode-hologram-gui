@@ -1,6 +1,6 @@
-import { Core } from "../Core";
-import { RenderWorkBench } from "./RenderWorkBench";
-import { CamRigFP } from "./CamRigFP";
+import { Core } from "../../AppState/Core";
+import { RenderWorkBench } from "../Rendering/RenderWorkBench";
+import { CamRigFP } from "../Interactive/CamRigFP";
 import { GridHelper, Group } from "three";
 import { useEffect } from "react";
 import { useThree } from "@react-three/fiber";

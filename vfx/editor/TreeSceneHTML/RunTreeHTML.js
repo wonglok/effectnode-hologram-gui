@@ -1,5 +1,5 @@
 // import { useEffect } from "react";
-import { Core } from "../Core";
+import { Core } from "../AppState/Core";
 import { TRoot } from "./TRoot";
 
 export function RunTreeHTML({ readonly = false, root }) {

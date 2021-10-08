@@ -1,6 +1,6 @@
 import { Canvas, createPortal, useThree } from "@react-three/fiber";
 // import { Suspense, useMemo } from "react";
-// import { Core } from "../Core";
+// import { Core } from "../AppState/Core";
 // // import { Color } from "three";
 import { RunTreeR3F } from "../TreeR3F/RunTreeR3F";
 // import { CanvasContent } from "./CanvasContent";

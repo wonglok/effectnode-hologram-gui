@@ -3,8 +3,62 @@ import { useEffect, useMemo, useRef } from "react";
 import { MathUtils } from "three";
 import { Camera, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { applyAutoEvent, useAutoEvent } from "../../utils/use-auto-event";
-import { Now } from "../Now";
+import { applyAutoEvent, useAutoEvent } from "../../../utils/use-auto-event";
+import { Quaternion } from "three";
+import { makeShallowStore } from "../../../utils/make-shallow-store";
+
+export const Now = makeShallowStore({
+  avatarAt: new Vector3(0, 0, 5),
+
+  //
+  keyW: false,
+  keyA: false,
+  keyS: false,
+  keyD: false,
+});
+
+export let makeArray = (obj, reverse = false) => {
+  let arr = [];
+
+  if (!obj) {
+    return arr;
+  }
+
+  let idx = 0;
+  for (let [key, val] of Object.entries(obj)) {
+    if (key && val) {
+      arr.push({
+        idx,
+        ...val,
+      });
+      idx++;
+    }
+  }
+
+  if (reverse) {
+    arr.sort((a, b) => {
+      if (a.idx > b.idx) {
+        return -1;
+      } else if (a.idx < b.idx) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+  } else {
+    arr.sort((a, b) => {
+      if (a.idx > b.idx) {
+        return 1;
+      } else if (a.idx < b.idx) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+  }
+
+  return arr;
+};
 
 export function CamRigFP({ cameraHeight = 1.5 }) {
   let { camera, get, gl, set } = useThree();
@@ -32,17 +86,6 @@ export function CamRigFP({ cameraHeight = 1.5 }) {
     },
     { passive: false }
   );
-
-  useEffect(() => {
-    let orig = Now.camMode;
-    Now.camMode = "first";
-    Now.avatarSpeed = 1;
-    return () => {
-      Now.avatarSpeed = 1;
-      Now.camMode = orig;
-    };
-  });
-  //
 
   useAutoEvent("keydown", (ev) => {
     // console.log(ev.key);
@@ -244,7 +287,6 @@ export function CamRigFP({ cameraHeight = 1.5 }) {
         Now.avatarAt.add(keyBoardForward).multiplyScalar(1);
       }
 
-      Now.goingTo.copy(Now.avatarAt);
       // if (!(Now.keyW || Now.keyA || Now.keyS || Now.keyD)) {
       //   Now.avatarAt.copy(Now.avatarAt);
       // }
@@ -253,18 +295,16 @@ export function CamRigFP({ cameraHeight = 1.5 }) {
     // grid of raycaster
 
     works.current.ctrl3 = () => {
-      let newType = "floor";
-
-      // let upness = Now.cursorNormal.y || 0;
-      if (Now.cursorType !== newType) {
-        Now.cursorType = newType;
-      }
+      // let newType = "floor";
+      // // let upness = Now.cursorNormal.y || 0;
+      // if (Now.cursorType !== newType) {
+      //   Now.cursorType = newType;
+      // }
     };
 
     works.current.ctrl = () => {
       orbit.update();
 
-      // Now.goingTo.add(forward);
       forward.multiplyScalar(0.4);
       Now.avatarAt.add(forward);
 
@@ -276,9 +316,7 @@ export function CamRigFP({ cameraHeight = 1.5 }) {
     };
 
     let p = get().gl.domElement.parentElement;
-    Now.enableFloorCursor = false;
     return () => {
-      Now.enableFloorCursor = true;
       manager.off("start move end dir plain");
       manager.destroy();
       p.removeChild(joystick);
