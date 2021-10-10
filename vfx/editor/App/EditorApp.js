@@ -64,7 +64,7 @@ export function EditorApp() {
             return (
               <div
                 key={e.key}
-                className={`hover:bg-blue-300 flex items-center justify-center px-3 py-1 mr-2 rounded-tr-xl rounded-tl-xl cursor-pointer ${
+                className={`hover:bg-blue-300  flex items-center justify-center px-3 py-1 mr-2 rounded-tr-xl rounded-tl-xl cursor-pointer ${
                   Core.workspace === e.key
                     ? "bg-white text-black border-gray-200"
                     : "bg-gray-300 text-black border-t border-l border-r border-gray-200"
@@ -108,7 +108,7 @@ export function EditorApp() {
 
       <div className="top-tool bg-gray-300 w-full flex items-center">
         <div className="flex items-center justify-between w-full px-2">
-          <div>樂樂出品必屬佳品! </div>
+          <div>樂樂出品必屬佳品 😂</div>
           <div>EffectNode {new Date().getFullYear()} ©</div>
         </div>
       </div>

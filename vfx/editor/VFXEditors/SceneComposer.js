@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import SplitPane from "react-split-pane";
+import { AssetBrowser } from "../AssetBrowser/AssetBrowser";
 import { CanvasArea } from "../CanvasArea/CanvasArea";
 // import { SceneComposerCamRigFP } from "../CanvasArea/SceneComposerCamRigFP";
 import { SceneComposerRoot } from "../CanvasArea/SceneComposer/SceneComposerRoot";
@@ -7,13 +8,15 @@ import { Outline } from "../Outline/Outline";
 import { ToolPanel } from "../ToolPanel/ToolPanel";
 
 export function SceneComposer() {
-  let [splitAreaHeight, setSplitAreaHeight] = useState(1024);
-  let [canvasHeightMax, canvasMaxSetter] = useState(700);
+  let [hh, setHH] = useState(1024);
+  let [ww, setWW] = useState(700);
+  let [boxH, setBoxH] = useState(280);
+  let [assetBrowserH, setAssetBrowserH] = useState(280);
 
   useEffect(() => {
     let h = () => {
-      setSplitAreaHeight(window.innerHeight - 35 * 2);
-      canvasMaxSetter(window.innerHeight - 300);
+      setHH(window.innerHeight);
+      setWW(window.innerWidth);
     };
     h();
 
@@ -23,23 +26,37 @@ export function SceneComposer() {
     };
   }, []);
 
+  let tt = 0;
+  let onChange = (v) => {
+    clearTimeout(tt);
+    tt = setTimeout(() => {
+      setBoxH(v);
+    }, 50);
+  };
+
   return (
     <div className="w-full h-full">
       <SplitPane
         //
         split="vertical"
         defaultSize={275} // toolbox width
-        style={{ height: `${splitAreaHeight}px` }}
+        style={{ height: `${hh - 35 * 2}px`, width: `${ww}px` }}
       >
-        <SplitPane split="horizontal" defaultSize={280}>
+        <SplitPane onChange={onChange} split="horizontal" defaultSize={boxH}>
           <div className="w-full h-full bg-gray-100">
             <Outline></Outline>
           </div>
           <div className="w-full h-full bg-gray-100">
-            <ToolPanel></ToolPanel>
+            <ToolPanel height={hh - 35 * 2 - boxH}></ToolPanel>
           </div>
         </SplitPane>
-        <SplitPane split="horizontal" defaultSize={canvasHeightMax}>
+        <SplitPane
+          onChange={(upper) => {
+            setAssetBrowserH(hh - 35 * 2 - upper);
+          }}
+          split="horizontal"
+          defaultSize={hh - 300}
+        >
           <div className="w-full h-full bg-white">
             <CanvasArea>
               {/*  */}
@@ -47,7 +64,10 @@ export function SceneComposer() {
               {/*  */}
             </CanvasArea>
           </div>
-          <div className="w-full h-full bg-gray-100">Asset Browser</div>
+          <div className="w-full h-full bg-gray-100">
+            <AssetBrowser panelHeight={assetBrowserH}></AssetBrowser>
+            {/* Asset Browser */}
+          </div>
         </SplitPane>
       </SplitPane>
 

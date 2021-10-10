@@ -68,7 +68,8 @@ export function CamRigFP({ cameraHeight = 1.5 }) {
     (ev) => {
       ev.preventDefault();
     },
-    { passive: false }
+    { passive: false },
+    gl.domElement.parentElement
   );
 
   useAutoEvent(
@@ -76,7 +77,8 @@ export function CamRigFP({ cameraHeight = 1.5 }) {
     (ev) => {
       ev.preventDefault();
     },
-    { passive: false }
+    { passive: false },
+    gl.domElement.parentElement
   );
 
   useAutoEvent(
@@ -84,12 +86,31 @@ export function CamRigFP({ cameraHeight = 1.5 }) {
     (ev) => {
       ev.preventDefault();
     },
+    { passive: false },
+    gl.domElement.parentElement
+  );
+  useAutoEvent(
+    `blur`,
+    (ev) => {
+      Now.keyW = false;
+      Now.keyA = false;
+      Now.keyS = false;
+      Now.keyD = false;
+    },
+    { passive: false }
+  );
+  useAutoEvent(
+    `focus`,
+    (ev) => {
+      Now.keyW = false;
+      Now.keyA = false;
+      Now.keyS = false;
+      Now.keyD = false;
+    },
     { passive: false }
   );
 
   useAutoEvent("keydown", (ev) => {
-    // console.log(ev.key);
-
     if (ev.key === "w") {
       Now.keyW = true;
     }
@@ -103,9 +124,8 @@ export function CamRigFP({ cameraHeight = 1.5 }) {
       Now.keyD = true;
     }
   });
-  useAutoEvent("keyup", (ev) => {
-    // console.log(ev.key);
 
+  useAutoEvent("keyup", (ev) => {
     if (ev.key === "w") {
       Now.keyW = false;
     }

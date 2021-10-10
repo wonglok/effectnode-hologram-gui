@@ -96,7 +96,24 @@ export const traverse = (object, fnc) => {
   }
 };
 
+export const getObjectByName = (object, name) => {
+  let list = [];
+  traverse(object, (item) => {
+    list.push(item);
+  });
+  return list.find((i) => i.name === name);
+};
+
+export const getObjectByID = (object, id) => {
+  let list = [];
+  traverse(object, (item) => {
+    list.push(item);
+  });
+  return list.find((i) => i.id === id);
+};
+
 //-----
+
 export class TreeArraySample {
   static run() {
     let tree = {
