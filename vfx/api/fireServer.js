@@ -1,6 +1,6 @@
 import * as admin from "firebase-admin";
 
-export let protect = (handler) => (req, res) => {
+export let protectFire = (handler) => (req, res) => {
   if (admin.apps.length === 0) {
     let fireEncStr = process.env.FIREBASE_ENCODE_JSON;
 

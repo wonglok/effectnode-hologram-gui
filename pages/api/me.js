@@ -1,50 +1,29 @@
-import * as admin from "firebase-admin";
-import { protect } from "../../vfx/api/fireServer";
-
-// let protect = (handler) => (req, res) => {
-//   if (admin.apps.length === 0) {
-//     let fireEncStr = process.env.FIREBASE_ENCODE_JSON;
-
-//     let serviceAccount = JSON.parse(decodeURIComponent(fireEncStr));
-
-//     admin.initializeApp({
-//       credential: admin.credential.cert(serviceAccount),
-//       databaseURL: process.env.FIREBASE_SERVICE_ACCOUNT_DB_URL,
-//     });
-//   }
-
-//   try {
-//     admin
-//       .auth()
-//       .verifyIdToken(req.body.token)
-//       .then((decodedToken) => {
-//         const uid = decodedToken.uid;
-
-//         handler({
-//           uid: uid,
-//           token: decodedToken,
-//           req,
-//           res,
-//         });
-//       })
-//       .catch((e) => {
-//         console.log(e);
-//         // Handle error
-//         res
-//           .status(403)
-//           .json({ erro: "firebase  cannot decode stuff", ok: false });
-//       });
-//   } catch (e) {
-//     console.log(e);
-//     res.status(403).json({ erro: "function cannot decode stuff", ok: false });
-//   }
-// };
+import { protectFire } from "../../vfx/api/fireServer";
+import * as cloudainry from "cloudinary";
 
 let handler = ({ req, res, token, uid }) => {
   console.log(token.uid);
   console.log(token.name);
   console.log(token.picture);
+
   res.status(200).json({ uid, ok: true });
+
+  //
+
+  // let cloudinaryURL = process.env.CLOUDINARY_URL;
+  // let short = cloudinaryURL.replace("cloudinary://", "");
+  // let [api_pair, cloud_name] = short.split("@");
+  // let [api_key, api_secret] = api_pair.split(":");
+
+  // cloudainry.v2.config({
+  //   cloud_name,
+  //   api_key,
+  //   api_secret,
+  // });
+
+  // cloudainry.v2.api.root_folders().then((folders) => {
+  //   res.status(200).json({ uid, ok: true, folders });
+  // });
 };
 
-export default protect(handler);
+export default protectFire(handler);
