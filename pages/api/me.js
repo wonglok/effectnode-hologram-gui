@@ -2,13 +2,13 @@ import * as admin from "firebase-admin";
 
 let protect = (handler) => (req, res) => {
   if (admin.apps.length === 0) {
-    let str = process.env.FIREBASE_ENCODE_JSON;
+    let fireEncStr = process.env.FIREBASE_ENCODE_JSON;
 
-    str = JSON.parse(decodeURIComponent(str));
+    let serviceAccount = JSON.parse(decodeURIComponent(fireEncStr));
 
     admin.initializeApp({
-      credential: admin.credential.cert(str),
-      databaseURL: "https://effectnode.firebaseio.com",
+      credential: admin.credential.cert(serviceAccount),
+      databaseURL: process.env.FIREBASE_SERVICE_ACCOUNT_DB_URL,
     });
   }
 
