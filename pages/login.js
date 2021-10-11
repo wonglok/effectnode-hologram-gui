@@ -1,7 +1,7 @@
-import { getMe, login } from "../vfx/api/fire";
+import { getMe, login, firebase } from "../vfx/api/fire";
 export default function loginPage() {
   let tryToken = ({ token }) => {
-    return fetch(`/api/fire`, {
+    return fetch(`/api/me`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -23,7 +23,16 @@ export default function loginPage() {
             if (s?.user?.uid) {
               let token = s.user.getIdToken(/* forcerefresh */ true);
 
-              token.then((val) => {});
+              token.then((val) => {
+                if (firebase.auth().currentUser) {
+                  console.log(val);
+                  // console.log(firebase.auth().currentUser);
+                }
+
+                // let me = await getMe();
+                // let token = await me.getIdToken();
+                tryToken({ token: val });
+              });
 
               //
               // router.router.push("/app");
@@ -43,8 +52,7 @@ export default function loginPage() {
             //
             //
             let me = await getMe();
-            let token = await me.getIdToken(true);
-            console.log(token);
+            let token = await me.getIdToken();
             tryToken({ token });
             //
             //

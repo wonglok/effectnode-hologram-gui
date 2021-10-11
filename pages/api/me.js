@@ -1,35 +1,16 @@
 import admin from "firebase-admin";
 import { firebaseConfig } from "../../vfx/api/fireConfig";
 
-if (!admin.apps.length) {
-  admin.initializeApp({
-    apiKey: firebaseConfig.apiKey,
-    authDomain: firebaseConfig.authDomain,
-  });
-}
-
-// // // As httpOnly cookies are to be used, do not persist any state client side.
-
-// // idToken comes from the client app
-// // admin
-// //   .auth()
-// //   .verifyIdToken(idToken)
-// //   .then((decodedToken) => {
-// //     const uid = decodedToken.uid;
-// //     // ...
-// //   })
-// //   .catch((error) => {
-// //     // Handle error
-// //   });
-
-// idToken comes from the client app
-
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
 let protect = (handler) => (req, res) => {
-  console.log(req.body);
+  if (admin.apps.length === 0) {
+    admin.initializeApp({
+      apiKey: firebaseConfig.apiKey,
+      authDomain: firebaseConfig.authDomain,
+    });
+  }
+
   try {
-    admin
+    return admin
       .auth()
       .verifyIdToken(req.query.token || req.body.token)
       .then((decodedToken) => {
@@ -42,7 +23,8 @@ let protect = (handler) => (req, res) => {
           res,
         });
       })
-      .catch(() => {
+      .catch((e) => {
+        console.log(e);
         // Handle error
         res
           .status(403)
