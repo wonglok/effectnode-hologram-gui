@@ -1,4 +1,4 @@
-import { getMe, login, firebase } from "../vfx/api/fire";
+import { getMe, login, firebase, logout } from "../vfx/api/fire";
 export default function loginPage() {
   let tryToken = ({ token }) => {
     return fetch(`/api/me`, {
@@ -19,24 +19,19 @@ export default function loginPage() {
       <button
         onClick={() => {
           //
+          logout();
+
+          //
+        }}
+      >
+        Logout
+      </button>
+      <button
+        onClick={() => {
+          //
           login().then((s) => {
-            if (s?.user?.uid) {
-              let token = s.user.getIdToken(/* forcerefresh */ true);
-
-              token.then((val) => {
-                if (firebase.auth().currentUser) {
-                  console.log(val);
-                  // console.log(firebase.auth().currentUser);
-                }
-
-                // let me = await getMe();
-                // let token = await me.getIdToken();
-                tryToken({ token: val });
-              });
-
-              //
-              // router.router.push("/app");
-            }
+            //
+            console.log(s);
           });
 
           //
@@ -49,11 +44,27 @@ export default function loginPage() {
         onClick={() => {
           //
           let fnc = async () => {
+            if (firebase.auth().currentUser) {
+              firebase
+                .auth()
+                .currentUser.getIdToken(/* forceRefresh */ true)
+                .then((idToken) => {
+                  tryToken({ token: idToken });
+                  // Send token to your backend via HTTPS
+                  // ...
+                })
+                .catch(function (error) {
+                  // Handle error
+                });
+            }
+
             //
             //
-            let me = await getMe();
-            let token = await me.getIdToken();
-            tryToken({ token });
+            // let me = firebase.auth().currentUser;
+            // if (me) {
+            //   let token = await me.getIdTokenResult(true);
+            //   tryToken({ token });
+            // }
             //
             //
           };

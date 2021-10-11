@@ -1,18 +1,21 @@
-import admin from "firebase-admin";
-import { firebaseConfig } from "../../vfx/api/fireConfig";
+import * as admin from "firebase-admin";
 
 let protect = (handler) => (req, res) => {
   if (admin.apps.length === 0) {
+    let str = process.env.FIREBASE_ENCODE_JSON;
+
+    str = JSON.parse(decodeURIComponent(str));
+
     admin.initializeApp({
-      apiKey: firebaseConfig.apiKey,
-      authDomain: firebaseConfig.authDomain,
+      credential: admin.credential.cert(str),
+      databaseURL: "https://effectnode.firebaseio.com",
     });
   }
 
   try {
-    return admin
+    admin
       .auth()
-      .verifyIdToken(req.query.token || req.body.token)
+      .verifyIdToken(req.body.token)
       .then((decodedToken) => {
         const uid = decodedToken.uid;
 
