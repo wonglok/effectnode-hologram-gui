@@ -30,3 +30,5 @@ export const DBTypes = {
   Folder: "folder",
   UserCache: "user-cache",
 };
+
+//
