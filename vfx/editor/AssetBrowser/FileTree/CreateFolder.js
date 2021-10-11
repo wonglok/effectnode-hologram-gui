@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Core, createFolder } from "../../AppState/Core";
+import { Core } from "../../AppState/Core";
+import { createNode } from "../../AppState/AssetBrowser";
 export function CreateFolder({
   object,
   defaultName = "MyNewFolder",
@@ -22,7 +23,6 @@ export function CreateFolder({
         className="border border-black px-1 mx-1 w-32 my-2"
         value={txt}
         // ownerName
-        // ownerName
         onInput={({ target: { value } }) => {
           setTxt(value);
         }}
@@ -33,7 +33,7 @@ export function CreateFolder({
         className=" border border-black px-1 mx-1 w-23 my-2"
         onClick={() => {
           try {
-            createFolder({ object: object, name: txt, parentId });
+            createNode({ object: object, name: txt, parentId });
           } catch (e) {
             console.log(e);
           }

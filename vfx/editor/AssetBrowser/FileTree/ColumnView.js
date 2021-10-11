@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Core, removeFolder, saveFolder } from "../../AppState/Core";
+import { removeNode, saveNode } from "../../AppState/AssetBrowser";
+import { Core } from "../../AppState/Core";
 import { CreateFolder } from "./CreateFolder";
 
 export function ColumnView({
@@ -10,6 +11,7 @@ export function ColumnView({
 }) {
   Core.makeKeyReactive("reloadFileRoot");
   let [nextTree, setNextTree] = useState(false);
+  let [mode, setMode] = useState("ready");
 
   useEffect(() => {
     Core.columns += 1;
@@ -25,39 +27,38 @@ export function ColumnView({
     <>
       <div
         style={{
+          height: `${panelHeight - 40}px`,
+          overflowY: "scroll",
           width: 280 + "px",
         }}
         className="float-left border-r border-black"
       >
+        {/*  */}
         <CreateFolder
           object={fileTree}
           defaultName={"new folder " + fileTree.children.length}
           parentId={parentID}
         ></CreateFolder>
 
-        <div
-          style={{
-            height: `${panelHeight - 35}px`,
-            overflowY: "scroll",
-          }}
-          className="py-3"
-        >
+        <div style={{}} className="py-3">
           {fileTree.children.map((k) => {
             return (
               <div
                 key={k.id}
-                onClick={() => {
-                  setNextTree(k);
-                }}
-                className={`${nextTree.id === k.id ? "bg-green-300" : ""}`}
+                className={`${
+                  nextTree.id === k.id ? "bg-green-300" : " hover:bg-green-200"
+                }`}
               >
                 <FolderEntry
                   onSelect={() => {
-                    setNextTree(k);
-                    Core.reloadFileRoot++;
+                    setNextTree(false);
+                    setTimeout(() => {
+                      setNextTree(k);
+                      Core.reloadFileRoot++;
+                    });
                   }}
                   onRemove={({}) => {
-                    removeFolder({ object: fileTree, folder: k });
+                    removeNode({ object: fileTree, folder: k });
                     setNextTree(false);
                   }}
                   folder={k}
@@ -97,18 +98,25 @@ export function FolderEntry({
       onKeyDownCapture={(e) => {
         e.stopPropagation();
       }}
+      onClick={() => {
+        onSelect();
+      }}
     >
       {mode === "display" && (
         <>
-          <div className="border border-transparent px-1 mx-1 w-32 my-1 whitespace-pre-wrap">
+          {/*  */}
+          <div
+            onClick={() => {
+              onSelect();
+            }}
+            className="border border-transparent px-1 mx-1 w-32 my-1 whitespace-pre-wrap"
+          >
             {folder.name}
           </div>
 
-          <button
+          {/* <button
             className=" border border-black px-1 mx-1 w-10 my-1 hidden group-hover:block"
             onClick={() => {
-              //
-              //
               onSelect();
             }}
           >
@@ -132,9 +140,12 @@ export function FolderEntry({
             }}
           >
             Remove
-          </button>
+          </button> */}
         </>
       )}
+
+      {/*  */}
+      {/*  */}
       {mode === "edit" && (
         <>
           <textarea
@@ -153,7 +164,7 @@ export function FolderEntry({
             className=" border border-black px-1 mx-1 w-32 my-1"
             onClick={() => {
               try {
-                saveFolder({ folder });
+                saveNode({ folder });
                 setMode("display");
               } catch (e) {
                 console.log(e);
