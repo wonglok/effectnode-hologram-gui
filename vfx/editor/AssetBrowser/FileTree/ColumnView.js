@@ -57,6 +57,7 @@ export function ColumnView({
                       Core.reloadFileRoot++;
                     });
                   }}
+                  //
                   onRemove={({}) => {
                     removeNode({ object: fileTree, folder: k });
                     setNextTree(false);
