@@ -34,13 +34,13 @@ export default function Vcms() {
                   if (e.target[0]?.value) {
                     let email = e.target[0]?.value;
                     setCTA({
-                      text: `Sending...`,
+                      text: `Sending Yo Login Email...`,
                       disabled: true,
                     });
                     emailLoginLink({ email }).then(
                       () => {
                         setCTA({
-                          text: `Sent, Please check your inbox / spambox dear...`,
+                          text: `Sent, Please check your inbox / spambox...`,
                           disabled: false,
                         });
                       },
@@ -52,7 +52,7 @@ export default function Vcms() {
 
                         setTimeout(() => {
                           setCTA({
-                            text: `Send me email login link again, thx 🥰`,
+                            text: `let's try again, dear 🥰`,
                             disabled: false,
                           });
                         }, 1000);

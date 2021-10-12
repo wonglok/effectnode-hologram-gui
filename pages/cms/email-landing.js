@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-
+import { firebase } from "../../vfx/api/fire";
 export default function LandingLoginLink() {
   useEffect(() => {
     // Confirm the link is a sign-in with email link.
