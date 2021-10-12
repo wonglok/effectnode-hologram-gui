@@ -1,6 +1,7 @@
 import * as admin from "firebase-admin";
+import { firebaseConfig } from "./fireConfig";
 
-export let protectFire = (handler) => (req, res) => {
+export let setupAdmin = () => {
   if (admin.apps.length === 0) {
     let fireEncStr = process.env.FIREBASE_ENCODE_JSON;
 
@@ -8,9 +9,13 @@ export let protectFire = (handler) => (req, res) => {
 
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
-      databaseURL: process.env.FIREBASE_SERVICE_ACCOUNT_DB_URL,
+      databaseURL: firebaseConfig.databaseURL,
     });
   }
+};
+
+export let protectFire = (handler) => (req, res) => {
+  setupAdmin();
 
   try {
     admin
@@ -38,6 +43,8 @@ export let protectFire = (handler) => (req, res) => {
     res.status(403).json({ erro: "function cannot decode stuff", ok: false });
   }
 };
+
+export { admin };
 
 /* example
 

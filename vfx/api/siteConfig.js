@@ -1,3 +1,3 @@
 export const SiteConfig = {
-  domain: "effectnode-metaverse-cms.vercel.app",
+  productionDomain: "effectnode-metaverse-cms.vercel.app",
 };

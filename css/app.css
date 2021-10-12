@@ -3,4 +3,22 @@ html,
 body {
   width: 100%;
   height: 100%;
+  font-family: CronosPro;
+  font-smooth: always;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+  font-family: "CronosPro";
+  src: local("Cronos Pro Light Display"), local("CronosPro-LtDisp"),
+    url("/font/cronos-pro-light-display/web/CronosPro-LtDisp.woff2")
+      format("woff2"),
+    url("/font/cronos-pro-light-display/web/CronosPro-LtDisp.woff")
+      format("woff"),
+    url("/font/cronos-pro-light-display/web/CronosPro-LtDisp.ttf")
+      format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
 }

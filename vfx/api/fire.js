@@ -35,13 +35,46 @@ const getMe = () => {
 
 const fireDB = FIREBASE.database();
 
-function emailLoginLink({ email }) {
+function emailAdminLogin({ email }) {
   var actionCodeSettings = {
     // URL you want to redirect back to. The domain (www.example.com) for this
     // URL must be in the authorized domains list in the Firebase Console.
     url: `https://${
-      SiteConfig.domain
+      SiteConfig.productionDomain
     }/cms/email-landing?comesFrom=${encodeURIComponent(`/cms/login`)}`,
+    // This must be true.
+    handleCodeInApp: true,
+  };
+
+  return firebase
+    .auth()
+    .sendSignInLinkToEmail(email, actionCodeSettings)
+    .then((v) => {
+      console.log(v);
+      // The link was successfully sent. Inform the user.
+      // Save the email locally so you don't need to ask the user for it again
+      // if they open the link on the same device.
+      window.localStorage.setItem("emailForSignIn", email);
+
+      return v;
+    })
+    .catch((error) => {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // ...
+
+      console.log(errorCode, errorMessage);
+      return Promise.reject(new Error("cannot send"));
+    });
+}
+
+function emailConsumerLogin({ email }) {
+  var actionCodeSettings = {
+    // URL you want to redirect back to. The domain (www.example.com) for this
+    // URL must be in the authorized domains list in the Firebase Console.
+    url: `https://${
+      SiteConfig.productionDomain
+    }/check?comesFrom=${encodeURIComponent(`/login`)}`,
     // This must be true.
     handleCodeInApp: true,
   };
@@ -74,7 +107,11 @@ function loginGithub() {
 }
 
 const loginGoogle = login;
+
+const FireAuth = firebase.auth();
+
 export {
+  FireAuth,
   firebase,
   fireApp,
   logout,
@@ -82,6 +119,7 @@ export {
   loginGoogle,
   getMe,
   fireDB,
-  emailLoginLink,
+  emailConsumerLogin,
+  emailAdminLogin,
   loginGithub,
 };

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { emailLoginLink, loginGithub, loginGoogle } from "../../vfx/api/fire";
+import { emailAdminLogin, loginGithub, loginGoogle } from "../../vfx/api/fire";
 // import { SiteConfig } from "../../vfx/api/siteConfig";
 import router from "next/router";
 
@@ -13,12 +13,12 @@ export default function Vcms() {
     router.router.push(`/cms`);
   };
   return (
-    <div>
+    <div className="w-full h-full bg-black">
       <div className="font-sans">
-        <div className="relative min-h-screen flex flex-col sm:justify-center items-center bg-gray-100 ">
+        <div className="relative min-h-screen flex flex-col sm:justify-center items-center ">
           <div className="relative sm:max-w-sm w-full">
-            <div className="card bg-blue-400 shadow-lg  w-full h-full rounded-3xl absolute  transform -rotate-6"></div>
-            <div className="card bg-red-400 shadow-lg  w-full h-full rounded-3xl absolute  transform rotate-6"></div>
+            <div className="card bg-purple-800 shadow-lg  w-full h-full rounded-3xl absolute  transform -rotate-6"></div>
+            <div className="card bg-blue-800 shadow-lg  w-full h-full rounded-3xl absolute  transform rotate-6"></div>
             <div className="relative w-full rounded-3xl  px-6 py-4 bg-gray-100 shadow-md">
               <label
                 htmlFor=""
@@ -37,7 +37,8 @@ export default function Vcms() {
                       text: `Sending Yo Login Email...`,
                       disabled: true,
                     });
-                    emailLoginLink({ email }).then(
+
+                    emailAdminLogin({ email }).then(
                       () => {
                         setCTA({
                           text: `Sent, Please check your inbox / spambox...`,
