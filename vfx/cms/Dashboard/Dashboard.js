@@ -3,9 +3,6 @@ import { Navbar } from "../Navbar/Navbar";
 
 export const Dashboard = () => {
   //
-  //
-  //
-  //
 
   return (
     <div
@@ -21,15 +18,19 @@ export const Dashboard = () => {
         <Navbar></Navbar>
 
         <div
-          class="grid grid-cols-1 lg:grid-cols-3 gap-4 w-full lg:h-full"
+          className=""
           style={{
             height: `calc(100% - 5rem)`,
           }}
         >
           <div className="rounded-3xl p-4 bg-white">
-            {/* <MyMaps></MyMaps> */}1
+            {/*  */}
+            {/*  */}
+            {/*  */}
+            {/*  */}
+            {/*  */}
+            <div className="h-96"></div>
           </div>
-          <div className="rounded-3xl p-4 bg-white lg:col-span-2">1</div>
         </div>
       </div>
     </div>
