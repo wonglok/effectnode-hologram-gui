@@ -169,7 +169,7 @@ function Coloring() {
   tex.encoding = sRGBEncoding;
   tex.mapping = EquirectangularReflectionMapping;
 
-  get().scene.background = tex;
+  get().scene.background = new Color("#ffcc00");
   get().scene.environment = tex;
 
   get().gl.outputEncoding = sRGBEncoding;
