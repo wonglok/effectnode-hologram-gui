@@ -3,7 +3,7 @@ import { SphereGeometry } from "three";
 import { Mesh, Vector3, Sphere } from "three";
 
 const NUM_SPHERES = 100;
-const SPHERE_RADIUS = 0.2;
+const SPHERE_RADIUS = 0.12;
 //
 const GRAVITY = 30;
 
@@ -22,9 +22,12 @@ export class SphereGun {
     this.sphereIdx = 0;
     const sphereGeometry = new SphereGeometry(SPHERE_RADIUS, 32, 32);
     const sphereMaterial = new MeshStandardMaterial({
-      color: 0x888855,
+      color: 0xff8855 * 0.6,
       roughness: 0.8,
       metalness: 0.5,
+      userData: {
+        enableBloom: true,
+      },
     });
 
     for (let i = 0; i < NUM_SPHERES; i++) {
