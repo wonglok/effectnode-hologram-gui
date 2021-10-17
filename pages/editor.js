@@ -7,5 +7,9 @@ import { EditorApp } from "../vfx/editor/App/EditorApp";
 // );
 
 export default function Page() {
-  return <EditorApp></EditorApp>;
+  return (
+    <div>
+      <EditorApp></EditorApp>
+    </div>
+  );
 }

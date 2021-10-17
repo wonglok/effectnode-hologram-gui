@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { DashGrid } from "../DashGrid/DashGrid";
-import { Graph } from "../Graph/Graph";
+// import { Graph } from "../Graph/Graph";
 import { Navbar } from "../Navbar/Navbar";
 
 export const Dashboard = () => {
@@ -58,7 +57,7 @@ export const Dashboard = () => {
             height: `calc(100% - 5rem)`,
           }}
         >
-          <Graph></Graph>
+          {/* <Graph></Graph> */}
         </div>
       </div>
     </div>

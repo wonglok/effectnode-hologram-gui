@@ -30,7 +30,9 @@ let internal = () => {
   };
 };
 
-let Type = { ...inside, ...ShallowStoreMethods };
 let inside = internal();
+
+let Type = { ...inside, ...ShallowStoreMethods };
+
 /** @type {Type} */
 export const Core = makeShallowStore(inside);
