@@ -39,7 +39,7 @@ export default function PageRoot() {
         shadows
         dpr={[1, 3]}
         gl={{ alpha: true, antialias: true }}
-        // performance={{ min: 0.5 }}
+        performance={{ min: 0.85 }}
       >
         <Suspense fallback={null}>
           {/* <Content></Content> */}
@@ -182,7 +182,7 @@ function Decoration({ o3d }) {
       cursor.current.move = 0;
       cursor.current.isDown = true;
     },
-    { passive: false },
+    { passive: true },
     get().gl.domElement.parentElement
   );
   useAutoEvent(
@@ -194,7 +194,7 @@ function Decoration({ o3d }) {
 
       scan();
     },
-    { passive: false },
+    { passive: true },
     get().gl.domElement.parentElement
   );
   useAutoEvent(
@@ -211,13 +211,13 @@ function Decoration({ o3d }) {
       }
       cursor.current.isDown = false;
     },
-    { passive: false },
+    { passive: true },
     get().gl.domElement.parentElement
   );
 
-  useEffect(() => {
-    return InteractionUI.fixTouchScreen({ target: get().gl.domElement });
-  }, []);
+  // useEffect(() => {
+  //   return InteractionUI.fixTouchScreen({ target: get().gl.domElement });
+  // }, []);
   //
   return null;
 }
