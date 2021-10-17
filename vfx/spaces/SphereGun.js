@@ -158,11 +158,11 @@ export class SphereGun {
     }
   }
 
-  updateSpheres({ deltaTime, worldOctree }) {
+  updateSpheres({ deltaTime, octree }) {
     this.spheres.forEach((sphere) => {
       sphere.collider.center.addScaledVector(sphere.velocity, deltaTime);
 
-      const result = worldOctree.sphereIntersect(sphere.collider);
+      const result = octree.sphereIntersect(sphere.collider);
 
       if (result) {
         sphere.velocity.addScaledVector(

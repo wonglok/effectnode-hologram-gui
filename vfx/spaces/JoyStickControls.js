@@ -51,12 +51,6 @@ export class JoyStickControls {
     let isUsing = false;
     let nippleAngle = 0;
 
-    // window.addEventListener('touchstart', () => {
-    //   isDown = true
-    // })
-    // window.addEventListener('touchend', () => {
-    //   isDown = false
-    // })
     let force = 1;
     manager.on("start move dir plain", function (evt, nipple) {
       if (nipple?.angle?.radian) {
@@ -65,7 +59,6 @@ export class JoyStickControls {
         nippleAngle = nipple?.angle?.radian;
 
         isUsing = true;
-        // Now.isDown = true;
       }
     });
 
@@ -73,11 +66,8 @@ export class JoyStickControls {
       nippleAngle = 0;
       force = 0;
 
-      // Now.isDown = false;
       isUsing = false;
     });
-
-    // camera.rotation.y;
 
     this.mini.onLoop(() => {
       if (!isUsing) {
@@ -90,7 +80,7 @@ export class JoyStickControls {
         );
 
         //
-        forward.multiplyScalar(0.3333);
+        forward.multiplyScalar(0.3333 * force * 0.5);
       }
 
       this.mainActor.playerCollider.translate(forward);

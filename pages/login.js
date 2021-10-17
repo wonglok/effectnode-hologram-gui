@@ -3,17 +3,19 @@ import { emailConsumerLogin, loginGithub, loginGoogle } from "../vfx/api/fire";
 // import { SiteConfig } from "../../vfx/api/siteConfig";
 import router from "next/router";
 
-export default function Vcms() {
+export default function Login({ done }) {
   let [cta, setCTA] = useState({
     disabled: false,
     text: "Email Me Login Link",
   });
 
-  let goGame = () => {
-    router.router.push(`/places`);
-  };
+  let goGame =
+    done ||
+    (() => {
+      router.router.push(`/places`);
+    });
   return (
-    <div className="w-full h-full bg-black">
+    <div className="w-full h-full bg-black bg-opacity-50">
       <div className="font-sans">
         <div className="relative min-h-screen flex flex-col sm:justify-center items-center ">
           <div className="relative sm:max-w-sm w-full">

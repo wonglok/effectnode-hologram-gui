@@ -6,11 +6,10 @@ export class DragScreenControls {
     this.camera = camera;
     this.mini = mini;
     let fakeCam = new Camera();
-    fakeCam.lookAt(0, 0, -10);
     fakeCam.position.z = 10;
     let orbit = new OrbitControls(fakeCam, renderer.domElement.parentElement);
     orbit.enableDamping = true;
-    orbit.dampingFactor = 0.93;
+    orbit.dampingFactor = 0.1;
     this.mini.onLoop(() => {
       orbit.update();
       this.camera.rotation.copy(fakeCam.rotation);

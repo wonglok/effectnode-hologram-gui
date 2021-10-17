@@ -5,19 +5,18 @@ import { ColliderActor } from "./ColliderActor";
 import { KeyboardControls } from "./KeyboardControls";
 import { DragScreenControls } from "./DragScreenControls";
 import { JoyStickControls } from "./JoyStickControls";
-
 import { SphereGun } from "./SphereGun";
 
-import { Clock, Vector3 } from "three";
+import { Clock, Object3D, Vector3 } from "three";
 
 export class SpaceApplication {
-  constructor({ mounter, camera, renderer, floorURL }) {
-    this.STEPS_PER_FRAME = 5;
+  constructor({ camera, renderer, floorURL }) {
+    this.mounter = new Object3D();
+    this.STEPS_PER_FRAME = 1;
 
     this.floorURL = floorURL;
     this.renderer = renderer;
     this.camera = camera;
-    this.mounter = mounter;
     this.clock = new Clock();
     this.mini = new Mini({});
     this.mini.set("core", this);
@@ -60,13 +59,6 @@ export class SpaceApplication {
       mainActor: this.mainActor,
     });
 
-    this.sphereGun = new SphereGun({
-      mini: this.mini,
-      mounter: this.mounter,
-      camera: this.camera,
-      mainActor: this.mainActor,
-    });
-
     this.tick = () => {
       this.mini.work();
     };
@@ -82,17 +74,27 @@ export class SpaceApplication {
     this.mini.set("mounter", this.mounter);
   }
   async setup() {
-    this.mini.onChange("floorGLB", (floorGLB) => {
+    this.mini.ready.floorGLB.then((floorGLB) => {
       if (floorGLB.scene) {
         let place = floorGLB.scene.getObjectByName("startAt");
 
         if (place) {
           let vp = new Vector3();
-          place.getWorldPosition(vp).sub(this.camera.position);
+          place.getWorldPosition(vp);
           //
           this.mainActor.playerCollider.translate(vp);
         }
       }
+
+      this.mini.onLoop(() => {
+        const deltaTime =
+          Math.min(0.05, this.clock.getDelta()) / this.STEPS_PER_FRAME;
+
+        for (let i = 0; i < this.STEPS_PER_FRAME; i++) {
+          this.keyboardControls.controls(deltaTime);
+          this.mainActor.updatePlayer(deltaTime);
+        }
+      });
 
       this.mounter.add(floorGLB.scene);
 
@@ -102,22 +104,6 @@ export class SpaceApplication {
     });
 
     //
-
-    this.mini.onLoop(() => {
-      const deltaTime =
-        Math.min(0.05, this.clock.getDelta()) / this.STEPS_PER_FRAME;
-
-      // we look for collisions in substeps to mitigate the risk of
-      // an object traversing another too quickly for detection.
-      for (let i = 0; i < this.STEPS_PER_FRAME; i++) {
-        this.keyboardControls.controls(deltaTime);
-        this.mainActor.updatePlayer(deltaTime);
-        this.sphereGun.updateSpheres({
-          deltaTime,
-          worldOctree: this.colliderWorld.octree,
-        });
-      }
-    });
 
     this.mini.set("done", true);
   }
