@@ -24,10 +24,14 @@ export class Mini {
     };
 
     let NS = getID();
+
+    //
     this.set = (key, v) => {
       this.resource.set(key, v);
       window.dispatchEvent(new CustomEvent(`${NS}${key}`, { detail: v }));
     };
+
+    //
     this.onChange = (key, fnc) => {
       let h = ({ detail: v }) => {
         fnc(v);
@@ -142,6 +146,24 @@ export class Mini {
         },
       }
     );
+
+    this.change = new Proxy(
+      {},
+      {
+        get: (obj, key) => {
+          //
+          let h = () => {};
+          this.onChange(key, h);
+          return h;
+        },
+        // set: (obj, key, val) => {
+        //   this.onChange(key, val);
+        //   return true;
+        // },
+      }
+    );
+
+    //
     this.now = new Proxy(
       {},
       {
@@ -154,6 +176,18 @@ export class Mini {
         },
       }
     );
+
+    this.autoEvent = (
+      ev = "",
+      hh = () => {},
+      dom = document.body,
+      opt = { passive: true }
+    ) => {
+      dom.addEventListener(ev, hh, opt);
+      this.onClean(() => {
+        dom.removeEventListener(ev, hh);
+      });
+    };
   }
 }
 

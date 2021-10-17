@@ -1,12 +1,45 @@
+import { useEffect, useState } from "react";
 import { DashGrid } from "../DashGrid/DashGrid";
+import { Graph } from "../Graph/Graph";
 import { Navbar } from "../Navbar/Navbar";
 
 export const Dashboard = () => {
   //
+  let [show, setShow] = useState(false);
+
+  useEffect(() => {
+    setShow(true);
+  }, []);
+
+  let genRandomTree = () => {
+    return {
+      nodes: [
+        {
+          id: 1,
+        },
+        {
+          id: 2,
+        },
+        {
+          id: 3,
+        },
+      ],
+      links: [
+        {
+          source: 1,
+          target: 2,
+        },
+        {
+          source: 1,
+          target: 3,
+        },
+      ],
+    };
+  };
 
   return (
     <div
-      className="w-full min-h-full p-8"
+      className="w-full h-full p-8"
       style={{
         backgroundImage: `url("https://source.unsplash.com/6fErfa9kGw8/1024x1024")`,
         backgroundSize: "cover",
@@ -14,8 +47,10 @@ export const Dashboard = () => {
         backgroundColor: "gray",
       }}
     >
-      <div className="glass rounded-3xl p-4 mb-4 w-full lg:h-full">
-        <Navbar></Navbar>
+      <div className="glass rounded-3xl p-4 w-full h-full">
+        <div className="h-20">
+          <Navbar></Navbar>
+        </div>
 
         <div
           className=""
@@ -23,14 +58,7 @@ export const Dashboard = () => {
             height: `calc(100% - 5rem)`,
           }}
         >
-          <div className="rounded-3xl p-4 bg-white">
-            {/*  */}
-            {/*  */}
-            {/*  */}
-            {/*  */}
-            {/*  */}
-            <div className="h-96"></div>
-          </div>
+          <Graph></Graph>
         </div>
       </div>
     </div>

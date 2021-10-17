@@ -10,7 +10,7 @@ export const ShallowStoreMethods = {
 /**
  * @returns {ShallowStoreMethods}
  */
-export const makeShallowStore = (myObject = {}) => {
+export let makeShallowStore = (myObject = {}) => {
   let ___NameSpaceID = getID();
   let Utils = {
     exportJSON: () => {
@@ -99,3 +99,5 @@ export const makeShallowStore = (myObject = {}) => {
   /** @type {Type} */
   return proxy;
 };
+
+makeShallowStore.methods = ShallowStoreMethods;
